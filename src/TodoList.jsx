@@ -1,11 +1,17 @@
-import React, {useState} from "react"
+import React, {useState,useEffect} from "react"
 
 
 
 function TodoList() {
 
-    const [tasks, setTasks] = useState(["Eat Breakfast", "Take a Shower", "Jogging"]);
+    const [tasks, setTasks] = useState(() => {const storedTasks = localStorage.getItem("tasks");
+    return storedTasks ? JSON.parse(storedTasks) : ["Eat Breakfast", "Take a Shower", "Jogging"]});
     const [newTask, setnewtask] = useState([]);
+
+    useEffect(() => {
+        // Save tasks to localStorage whenever it changes
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      }, [tasks]);
 
     function handleInputChange(e) {
         setnewtask(e.target.value)
